@@ -42,7 +42,7 @@ Siec::~Siec()
         delete sklep;
 }
 
-Towar* Siec::NajdrozszyWBudzecie(int budzet) {
+Towar *Siec::NajdrozszyWBudzecie(int budzet) {
     int max = 0;
     Towar *maksymalnyProdukt = nullptr, *temp = nullptr;
 
@@ -51,6 +51,35 @@ Towar* Siec::NajdrozszyWBudzecie(int budzet) {
         if (temp != nullptr && temp->dajCene() > max){max = temp->dajCene(); maksymalnyProdukt=temp;}
         //idziemy po wszystkich sklepach
         }
-    return temp;
+    return maksymalnyProdukt;
 
+}
+
+Towar *Siec::NajtanszyTowar(int budzet) {
+    int min = budzet + 1;
+    Towar *minimalnyProdukt = nullptr, *temp = nullptr;
+
+    for(Sklep* sklep : this->pokazSklepy()){
+        temp = sklep->NajtanszyTowar(budzet);
+        if (temp != nullptr && temp->dajCene() < min){min = temp->dajCene(); minimalnyProdukt=temp;}
+        //idziemy po wszystkich sklepach
+    }
+    return minimalnyProdukt;
+}
+
+Towar *Siec::LosowyTowar(int budzet) {
+    if (this->pokazSklepy().empty()) return nullptr;
+    srand( time( NULL ) );
+    int losowyIndeks = rand() % this->pokazSklepy().size();
+    return this->pokazSklepy()[losowyIndeks]->LosowyTowar(budzet);
+}
+
+//TODO: dokończyć - od razu zwracać sklep najbliższy z sieci
+Towar *Siec::KonkretnyTowar(string nazwa, int x_klienta, int y_klienta) {
+    if (this->pokazSklepy().empty()) return nullptr;
+
+    Towar *szukanyTowar = nullptr;
+    for (Sklep *sklep : this->pokazSklepy()){
+        szukanyTowar = sklep->KonkretnyTowar(nazwa);
+    }
 };

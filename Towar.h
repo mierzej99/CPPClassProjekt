@@ -25,6 +25,7 @@ public:
     virtual void zmienIlosc(int ilosc);
 
     int dajCene() const;
-    // niby każdy klient kupuje tylko po jednej sztuce ale zostawiam możliwość zmiany o dowolną liczbę
+
+    const string &dajNazwe() const;
 
 };

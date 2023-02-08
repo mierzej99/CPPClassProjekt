@@ -24,5 +24,8 @@ ostream &operator<<(ostream &os, const Miasto &miasto) {
     os << endl;
     return os;
 }
-//destruktor
-Miasto::~Miasto() {};
+
+//funckje
+const vector<ObiektHandlowy *> &Miasto::dajSklepy() const {
+    return sklepy;
+}

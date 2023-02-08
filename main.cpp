@@ -17,9 +17,11 @@ int main() {
     Siec siu("lidl", 0.5, sklepy);
     cout << *(siu.pokazSklepy()[0]->pokazSiec()) << endl;
     Towar* t1 = new Towar("dupa jasia", 1, 1);
-    t1->zmienCene(-1);
     cout << *t1 << endl;
+    delete t1;
 
     Maksymalista maks("jasiu", 100, 10,10);
+    maks.zakup(siu);
     cout << maks << endl;
+    cout << siu << endl;
 }

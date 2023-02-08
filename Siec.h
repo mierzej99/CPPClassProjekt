@@ -26,7 +26,9 @@ public:
 
     //funckje
     Towar* NajdrozszyWBudzecie(int budzet) override;
-    //Towar* NajtanszyTowar(int budzet) override;
+    Towar* NajtanszyTowar(int budzet) override;
+    Towar* LosowyTowar(int budzet) override;
+    Towar* KonkretnyTowar(string nazwa, int x_klienta, int y_klienta) override;
     virtual void przejmijSiec(Siec *SiecDoPrzejecia);
     virtual void usunSklepzSieci(const Sklep *sklep);
     virtual void dodajSklepDoSieci(const Sklep *sklep);

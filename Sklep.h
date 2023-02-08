@@ -28,7 +28,9 @@ public:
 
     //funkcje
     Towar* NajdrozszyWBudzecie(int budzet) override;
-    //Towar* NajtanszyTowar(int budzet) override;
+    Towar* NajtanszyTowar(int budzet) override;
+    Towar* LosowyTowar(int budzet) override;
+    Towar* KonkretnyTowar(string nazwa) override;
     virtual void ustawSiec(Siec *siec);
     virtual const vector<Towar *> &pokazTowary();
     virtual Siec *pokazSiec();

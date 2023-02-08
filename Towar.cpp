@@ -43,4 +43,8 @@ int Towar::dajCene() const {
 
 int Towar::dajIlosc() const {
     return ilosc;
+}
+
+const string &Towar::dajNazwe() const {
+    return nazwa;
 };

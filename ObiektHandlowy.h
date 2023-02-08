@@ -21,7 +21,12 @@ public:
 
     //funkcje
     virtual Towar* NajdrozszyWBudzecie(int budzet) = 0;
-    //virtual Towar* NajtanszyTowar(int budzet) = 0;
+    virtual Towar* NajtanszyTowar(int budzet) = 0;
+    virtual Towar* LosowyTowar(int budzet) = 0;
+    virtual Towar* KonkretnyTowar(string nazwa, int x_klienta, int y_klienta) = 0;
+
+
+
 
 
 };
