@@ -4,4 +4,4 @@
 
 #include "ObiektHandlowy.h"
 using namespace std;
-ObiektHandlowy::ObiektHandlowy(string nazwa) : nazwa(nazwa){};
+ObiektHandlowy::ObiektHandlowy(string nazwa) : nazwa(nazwa){}

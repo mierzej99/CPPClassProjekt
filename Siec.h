@@ -28,7 +28,8 @@ public:
     Towar* NajdrozszyWBudzecie(int budzet) override;
     Towar* NajtanszyTowar(int budzet) override;
     Towar* LosowyTowar(int budzet) override;
-    Towar* KonkretnyTowar(string nazwa, int x_klienta, int y_klienta) override;
+    Towar* NajtanszyKonkretnyTowar(string nazwa, int budzet) override;
+    ObiektHandlowy* NajblizszySklepZKonkretnymTowarem(string nazwa, int x_klienta, int y_klienta, int budzet) override;
     virtual void przejmijSiec(Siec *SiecDoPrzejecia);
     virtual void usunSklepzSieci(const Sklep *sklep);
     virtual void dodajSklepDoSieci(const Sklep *sklep);

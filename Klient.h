@@ -29,6 +29,10 @@ public:
 
     bool CzyMamPrezent() const;
 
+    int dajX() const;
+
+    int dajY() const;
+
 
 };
 
@@ -75,6 +79,23 @@ public:
     void zakup(ObiektHandlowy&) override;
 };
 
+//Oszczędni pobierają listę sklepów z miasta, dowiadują się
+//o cenę poszukiwanego produktu we wszystkich sklepach i kupują tam, gdzie jest najtaniej (jeśli kilka sklepów
+//oferuje taką samą cenę, to wybierają dowolny z nich).
+class Oszczedny : public Klient {
+private:
+    string szukanyProdukt;
+public:
+    Oszczedny(string imie, int budzet, int x, int y);
+    Oszczedny() = delete;
+    Oszczedny(const Oszczedny&) = delete;
+    Oszczedny &operator=(const Oszczedny&) = delete;
+    ~Oszczedny() = default;
+
+    const string &dajSzukanyProdukt() const;
+    void zakup(Miasto&) override;
+};
+
 //Tradycjonaliści nie kupują przez Internet i szukają
 //najbliższego im zwykłego sklepu z poszukiwanym towarem (jeśli jest kilka w tej samej odległości wybierają
 //dowolny z nich).
@@ -84,7 +105,7 @@ private:
 public:
     const string &dajSzukanyProdukt() const;
 
-    Tradycjonalista(string imie, int budzet, int x, int y, string Szukany);
+    Tradycjonalista(const string& imie, int budzet, int x, int y, const string& szukanyProdukt);
     Tradycjonalista() = delete;
     Tradycjonalista(const Tradycjonalista&) = delete;
     Tradycjonalista &operator=(const Tradycjonalista&) = delete;
@@ -94,12 +115,3 @@ public:
 };
 
 
-//Oszczędni pobierają listę sklepów z miasta, dowiadują się
-//o cenę poszukiwanego produktu we wszystkich sklepach i kupują tam, gdzie jest najtaniej (jeśli kilka sklepów
-//oferuje taką samą cenę, to wybierają dowolny z nich).
-class Oszczedny : public Klient {
-public:
-    Oszczedny(string imie, int budzet, int x, int y) : Klient(imie, budzet, x, y) {};
-
-    Towar zakup(vector<Sklep *> sklepy);
-};

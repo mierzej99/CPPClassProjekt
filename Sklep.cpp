@@ -2,6 +2,7 @@
 #include <vector>
 #include <ctime>
 #include <cstdlib>
+#include <cmath>
 #include "Sklep.h"
 
 using namespace std;
@@ -83,11 +84,36 @@ Towar *Sklep::LosowyTowar(int budzet) {
     else return nullptr;
 }
 
-Towar *Sklep::KonkretnyTowar(string nazwa) {
+
+
+Towar *Sklep::KonkretnyTowar(string nazwa, int budzet) {
     Towar *szukanyTowar = nullptr;
     for (Towar *towar : this->pokazTowary()){
-        if (towar->dajNazwe() == nazwa) szukanyTowar = towar;
+        if (towar->dajNazwe() == nazwa && towar->dajIlosc() > 0 && towar->dajCene() <= budzet) szukanyTowar = towar;
     }
     return szukanyTowar;
-};
+}
+
+Towar *Sklep::NajtanszyKonkretnyTowar(string nazwa, int budzet) {
+    return this->KonkretnyTowar(nazwa, budzet);
+}
+
+double Sklep::OdlegloscOdPunktu(int x, int y) {
+    return sqrt(pow(this->dajX()-x,2) + pow(this->dajY()-y,2));
+}
+
+int Sklep::dajX() const {
+    return x;
+}
+
+int Sklep::dajY() const {
+    return y;
+}
+
+ObiektHandlowy *Sklep::NajblizszySklepZKonkretnymTowarem(string nazwa, int x_klienta, int y_klienta, int budzet) {
+    if(this->KonkretnyTowar(nazwa, budzet) != nullptr) return this;
+    else return nullptr;
+}
+
+
 
