@@ -1,31 +1,48 @@
 #include "Miasto.h"
-
-using namespace std;
-//konstruktor
-Miasto::Miasto(const vector<Sklep *> &sklepy, const vector<Siec *> &sieci, const vector<Klient *> &klienci) : sklepy(
-        sklepy), sieci(sieci), klienci(klienci) {};
-
-//wypisywanie
-ostream &operator<<(ostream &os, const Miasto &miasto) {
-    os << "Sklepy: ";
-    for (const auto &sklep : miasto.sklepy) {
-        os << *sklep << " ";
-    }
-    os << endl;
-    os << "Sieci: ";
-    for (const auto &siec : miasto.sieci) {
-        os << *siec << " ";
-    }
-    os << endl;
-    os << "Klienci: ";
-    for (const auto &klient : miasto.klienci) {
-        os << *klient << " ";
-    }
-    os << endl;
-    return os;
-}
-
+#include <vector>
+#include <algorithm>
 //funckje
 const vector<ObiektHandlowy *> &Miasto::dajSklepy() const {
     return sklepy;
 }
+
+Miasto::~Miasto() {
+    for (ObiektHandlowy* placowka : this->sklepy){
+        delete placowka;
+    }
+    for (Klient* klient : this->klienci){
+        delete klient;
+    }
+}
+
+void Miasto::dodajObiektHandlowy(ObiektHandlowy *sklep) {
+    sklep->ustawMiasto(this);
+    this->sklepy.push_back(sklep);
+}
+
+void Miasto::dodajKlienta(Klient *klient) {
+    klient->ustawMiasto(this);
+    this->klienci.push_back(klient);
+}
+
+void Miasto::usunObiektHandlowy(ObiektHandlowy *placowka){
+    this->sklepy.erase(remove(this->sklepy.begin(), this->sklepy.end(), placowka), this->sklepy.end());
+}
+
+const vector<Klient *> &Miasto::dajKlientow() const {
+    return klienci;
+}
+
+ostream &operator<<(ostream &os, const Miasto &miasto) {\
+    os << "-----SKLEPY I SIECI-----" << endl;
+    for(ObiektHandlowy* sklep : miasto.dajSklepy()){
+        os << *sklep << endl;
+    }
+    os << "-----KLIENCI-----" << endl;
+    for (Klient *klient : miasto.dajKlientow()){
+        os << *klient << endl;
+    }
+    return os;
+}
+
+

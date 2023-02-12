@@ -1,9 +1,10 @@
 #pragma once
 #include <iostream>
-#include "Sklep.h"
+#include "ObiektHandlowy.h"
 #include "Miasto.h"
 using namespace std;
-
+class Miasto;
+class ObiektHandlowy;
 class Klient {
 private:
     string imie;
@@ -11,6 +12,7 @@ private:
     int x;
     int y;
     bool mamPrezent = false;
+    Miasto *miasto = nullptr;
 public:
     Klient() = delete;
     Klient(const string &imie, int budzet, int x, int y);
@@ -20,20 +22,14 @@ public:
 
     //wypisywanie
     friend ostream &operator<<(ostream &os, const Klient &klient);
-
-    virtual void zakup(ObiektHandlowy&) = 0;
     virtual void zakup(Miasto&) = 0;
-
+    virtual void wypisz(ostream &os) const;
+    virtual void ustawMiasto(Miasto *miasto);
     int dajBudzet() const;
     void JuzMamPrezent();
-
     bool CzyMamPrezent() const;
-
     int dajX() const;
-
     int dajY() const;
-
-
 };
 
 ///////////////////////////////////////podklasy////////////////////////////////////////////////////////
@@ -44,10 +40,10 @@ public:
     Maksymalista() = delete;
     Maksymalista(const Maksymalista&) = delete;
     Maksymalista &operator=(const Maksymalista&) = delete;
-    ~Maksymalista() override = default;
+    virtual ~Maksymalista() = default;
 
     //funkcje
-    void zakup(ObiektHandlowy&) override;
+    virtual void zakup(Miasto&) override;
 };
 
 //Minimaliści najtańszy
@@ -57,10 +53,10 @@ public:
     Minimalista() = delete;
     Minimalista(const Minimalista&) = delete;
     Minimalista &operator=(const Minimalista&) = delete;
-    ~Minimalista() override = default;
+    virtual ~Minimalista() = default;
 
     //funkcje
-    void zakup(ObiektHandlowy&) override;
+    virtual void zakup(Miasto&) override;
 };
 
 //Losowi kupujący próbują kilka razy (np. trzy, stała wartość w tej klasie) wybrać losowo wybrany (z
@@ -73,10 +69,9 @@ public:
     Losowy() = delete;
     Losowy(const Losowy&) = delete;
     Losowy &operator=(const Losowy&) = delete;
-    ~Losowy() override = default;
+    virtual ~Losowy() = default;
 
-
-    void zakup(ObiektHandlowy&) override;
+    virtual void zakup(Miasto&) override;
 };
 
 //Oszczędni pobierają listę sklepów z miasta, dowiadują się
@@ -86,14 +81,15 @@ class Oszczedny : public Klient {
 private:
     string szukanyProdukt;
 public:
-    Oszczedny(string imie, int budzet, int x, int y);
+    Oszczedny(string imie, int budzet, int x, int y, const string& szukanyProdukt);
     Oszczedny() = delete;
     Oszczedny(const Oszczedny&) = delete;
     Oszczedny &operator=(const Oszczedny&) = delete;
-    ~Oszczedny() = default;
+    virtual ~Oszczedny() = default;
 
+    virtual void wypisz(ostream &os) const override;
     const string &dajSzukanyProdukt() const;
-    void zakup(Miasto&) override;
+    virtual void zakup(Miasto&) override;
 };
 
 //Tradycjonaliści nie kupują przez Internet i szukają
@@ -109,9 +105,8 @@ public:
     Tradycjonalista() = delete;
     Tradycjonalista(const Tradycjonalista&) = delete;
     Tradycjonalista &operator=(const Tradycjonalista&) = delete;
-    ~Tradycjonalista() override = default;
+    virtual ~Tradycjonalista() = default;
 
-    void zakup(Miasto&) override;
+    virtual void wypisz(ostream &os) const override;
+    virtual void zakup(Miasto&) override;
 };
-
-

@@ -20,7 +20,6 @@ Towar& Towar::operator=(const Towar &innyTowar) {
     return *this;
 };
 
-
 ostream& operator<<(ostream &os, const Towar &towar) {
     os << "nazwa: " << towar.nazwa << " cena: " << towar.cena << " ilosc: " << towar.ilosc;
     return os;
