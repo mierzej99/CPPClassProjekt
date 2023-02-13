@@ -14,10 +14,11 @@ class ObiektHandlowy {
 protected:
     string nazwa;
     Miasto *miasto = nullptr; // sklep lub siec wie w jakim jest miescie
+    double saldo = 0;
 public:
     //techniczne
     ObiektHandlowy() = delete;
-    ObiektHandlowy(string nazwa);
+    explicit ObiektHandlowy(string nazwa);
 
     Miasto *dajMiasto() const;
 
@@ -27,6 +28,8 @@ public:
     const string &dajNazwe() const;
 
     void ustawMiasto(Miasto *miasto);
+
+    virtual void przelew(double kwota, Sklep *sklep) = 0;
 
     virtual ~ObiektHandlowy() = default;
 
@@ -66,7 +69,7 @@ public:
     Towar* NajtanszyTowar(int budzet) override;
     Towar* LosowyTowar(int budzet) override;
     Towar* NajtanszyKonkretnyTowar(string nazwa, int budzet) override;
-    Towar* KonkretnyTowar(string nazwa, int budzet);
+    Towar* KonkretnyTowar(string nazwa, int budzet) override;
     ObiektHandlowy* NajblizszySklepZKonkretnymTowarem(string nazwa, int x_klienta, int y_klienta, int budzet) override;
     int dajX() const;
     int dajY() const;
@@ -76,6 +79,7 @@ public:
     virtual const vector<Towar *> &pokazTowary();
     virtual Siec *pokazSiec();
     virtual void odejdzZSieci(Siec *siec);
+    virtual void przelew(double kwota, Sklep *sklep) override;
 };
 
 
@@ -106,8 +110,7 @@ public:
     virtual void dodajSklepDoSieci(Sklep *sklep);
     const vector<Sklep *> &pokazSklepy();
     void wypisz(ostream &os) const override;
-
-
+    virtual void przelew(double kwota, Sklep *sklep) override;
 
 };
 

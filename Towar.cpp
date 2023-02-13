@@ -46,4 +46,12 @@ int Towar::dajIlosc() const {
 
 const string &Towar::dajNazwe() const {
     return nazwa;
+}
+
+void Towar::ustawSklep(Sklep *sklep) {
+    this->sklep = sklep;
+}
+
+Sklep *Towar::dajSklep() const {
+    return sklep;
 };

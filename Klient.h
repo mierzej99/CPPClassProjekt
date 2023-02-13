@@ -8,7 +8,7 @@ class ObiektHandlowy;
 class Klient {
 private:
     string imie;
-    int budzet;
+    double budzet;
     int x;
     int y;
     bool mamPrezent = false;
@@ -30,6 +30,8 @@ public:
     bool CzyMamPrezent() const;
     int dajX() const;
     int dajY() const;
+
+    void przelew(double budzet);
 };
 
 ///////////////////////////////////////podklasy////////////////////////////////////////////////////////

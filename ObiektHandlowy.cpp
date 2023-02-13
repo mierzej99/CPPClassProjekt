@@ -26,11 +26,16 @@ const string &ObiektHandlowy::dajNazwe() const {
 }
 
 
+
 ///////////////PODKLASY/////////////////////////////////
 //////////////SKLEP////////////////////////////////////
 //konstruktor
 Sklep::Sklep(string nazwa, vector<Towar *> towary, int x, int y, Siec *siec) : ObiektHandlowy(nazwa), x(x), y(y),
-                                                                               towary(towary), siec(siec) {};
+                                                                               towary(towary), siec(siec) {
+    for(Towar *towar : towary){
+        towar->ustawSklep(this);
+    }
+};
 
 //destruktor
 Sklep::~Sklep() {
@@ -95,7 +100,7 @@ Towar *Sklep::LosowyTowar(int budzet) {
     srand( time( NULL ) );
     int losowyIndeks = rand() % this->pokazTowary().size();
     Towar *temp = this->pokazTowary()[losowyIndeks];
-    if (temp->dajCene() <= budzet) return temp;
+    if (temp->dajCene() <= budzet && temp->dajIlosc() > 0) return temp;
     else return nullptr;
 }
 
@@ -129,8 +134,12 @@ ObiektHandlowy *Sklep::NajblizszySklepZKonkretnymTowarem(string nazwa, int x_kli
 }
 
 void Sklep::wypisz(ostream &os) const {
-    os << "nazwa Sklepu: " << this->nazwa << ", siec: " << this->siec->dajNazwe() << endl;
+    os << "nazwa Sklepu: " << this->nazwa << ", siec: " << this->siec->dajNazwe() << ", saldo: " << this->saldo << endl;
     for (int i = 0; i < this->towary.size(); i++) cout << " towar " << i << ": " << *(this->towary[i]) << endl;
+}
+
+void Sklep::przelew(double kwota, Sklep* sklep) {
+    this->saldo += kwota;
 }
 
 ////////////SIEĆ///////////////////////////////////////
@@ -248,6 +257,11 @@ void Siec::przejmijSiec(Siec *siecDoPrzejecia) {
 }
 
 void Siec::wypisz(ostream &os) const {
-    os << "nazwa Sieci: " << this->nazwa << ", marza: " << this->marza << ", miasto: " << this->dajMiasto()-> << endl;
+    os << "nazwa Sieci: " << this->nazwa << ", marza: " << this->marza << ", saldo: " << this->saldo << endl;
     for (int i = 0; i < this->sklepy.size(); i++) cout << " sklep " << i << ": " << *(this->sklepy[i]) << endl;
+}
+
+void Siec::przelew(double kwota, Sklep *sklep) {
+    sklep->przelew((1-this->marza)*kwota, sklep);
+    this->saldo += this->marza * kwota;
 };

@@ -44,6 +44,10 @@ void Klient::wypisz(ostream &os) const {
        << " mam prezent: " << this->mamPrezent;
 }
 
+void Klient::przelew(double budzet) {
+    this->budzet += budzet;
+}
+
 ///////////////MAKSYMALISTA////////////////////////////////////////////////////////////////////////////
 Maksymalista::Maksymalista(string imie, int budzet, int x, int y) : Klient(imie, budzet, x, y) {};
 
@@ -63,6 +67,8 @@ void Maksymalista::zakup(Miasto &miasto) {
     if (tempTowar != nullptr) {
         this->JuzMamPrezent();
         tempTowar->zmienIlosc(-1);
+        this->przelew(-tempTowar->dajCene());
+        placowka->przelew(tempTowar->dajCene(), tempTowar->dajSklep());
     }
 };
 
@@ -81,6 +87,8 @@ void Minimalista::zakup(Miasto &miasto) {
     if (tempTowar != nullptr) {
         this->JuzMamPrezent();
         tempTowar->zmienIlosc(-1);
+        this->przelew(-tempTowar->dajCene());
+        placowka->przelew(tempTowar->dajCene(), tempTowar->dajSklep());
     }
 };
 
@@ -101,6 +109,8 @@ void Losowy::zakup(Miasto &miasto) {
         if (tempTowar != nullptr) {
             this->JuzMamPrezent();
             tempTowar->zmienIlosc(-1);
+            this->przelew(-tempTowar->dajCene());
+            placowka->przelew(tempTowar->dajCene(), tempTowar->dajSklep());
             return;
         }
     }
@@ -123,13 +133,16 @@ void Oszczedny::zakup(Miasto &miasto) {
     }
     int min_cena = 100000; //TODO: zrobić mądrzej
     Towar *szukanyTowar = nullptr, *tempTowar = nullptr;
+    ObiektHandlowy *placowka = nullptr;
     for (ObiektHandlowy *sklep: miasto.dajSklepy()) {
         tempTowar = sklep->NajtanszyKonkretnyTowar(this->dajSzukanyProdukt(), this->dajBudzet());
-        if (tempTowar != nullptr && tempTowar->dajCene() < min_cena) szukanyTowar = tempTowar;
+        if (tempTowar != nullptr && tempTowar->dajCene() < min_cena) {szukanyTowar = tempTowar; placowka = sklep;}
     }
     if (szukanyTowar != nullptr && szukanyTowar->dajCene() <= this->dajBudzet()) {
         this->JuzMamPrezent();
         szukanyTowar->zmienIlosc(-1);
+        this->przelew(-szukanyTowar->dajCene());
+        placowka->przelew(tempTowar->dajCene(), tempTowar->dajSklep());
     }
 }
 
@@ -167,7 +180,10 @@ void Tradycjonalista::zakup(Miasto &miasto) {
     }
     if (sklepZSzukanymTowarem != nullptr) {
         this->JuzMamPrezent();
-        sklepZSzukanymTowarem->KonkretnyTowar(this->dajSzukanyProdukt(), this->dajBudzet())->zmienIlosc(-1);
+        Towar *tempTowar = sklepZSzukanymTowarem->KonkretnyTowar(this->dajSzukanyProdukt(), this->dajBudzet());
+        tempTowar->zmienIlosc(-1);
+        this->przelew(-tempTowar->dajCene());
+        sklepZSzukanymTowarem->przelew(tempTowar->dajCene(), tempTowar->dajSklep());
     }
 
 }

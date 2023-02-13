@@ -45,4 +45,6 @@ ostream &operator<<(ostream &os, const Miasto &miasto) {\
     return os;
 }
 
+Miasto::Miasto(const vector<ObiektHandlowy *> &sklepy, const vector<Klient *> &klienci) : sklepy(sklepy), klienci(klienci){};
+
 
