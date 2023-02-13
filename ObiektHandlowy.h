@@ -19,19 +19,20 @@ public:
     //techniczne
     ObiektHandlowy() = delete;
     explicit ObiektHandlowy(string nazwa);
-
     Miasto *dajMiasto() const;
-
     ObiektHandlowy(const ObiektHandlowy&) = delete;
     ObiektHandlowy &operator=(const ObiektHandlowy&) = delete;
+    virtual ~ObiektHandlowy() = default;
 
+    //wypisywanie
+    virtual void wypisz(ostream& os) const = 0;
+    friend ostream &operator<<(ostream &os, const ObiektHandlowy &handlowy);
+
+    //settery i gettery
     const string &dajNazwe() const;
-
     void ustawMiasto(Miasto *miasto);
-
     virtual void przelew(double kwota, Sklep *sklep) = 0;
 
-    virtual ~ObiektHandlowy() = default;
 
     //funkcje
     virtual Towar* NajdrozszyWBudzecie(int budzet) = 0;
@@ -41,9 +42,7 @@ public:
     virtual ObiektHandlowy* NajblizszySklepZKonkretnymTowarem(string nazwa, int x_klienta, int y_klienta, int budzet) = 0;
     virtual Towar* KonkretnyTowar(string nazwa, int budzet) = 0;
     virtual double OdlegloscOdPunktu(int x, int y) = 0;
-    virtual void wypisz(ostream& os) const = 0;
 
-    friend ostream &operator<<(ostream &os, const ObiektHandlowy &handlowy);
 };
 //////////////PODKLASY//////////////////////////////////////////////
 class Siec;
@@ -57,12 +56,21 @@ public:
     //konstruktor
     Sklep(string nazwa, vector<Towar *> towary, int x, int y, Siec *siec = nullptr);
     Sklep() = delete;
-    Sklep(const Sklep &innySklep) = delete;
-
-    // nie kopiujemy sklepów
+    Sklep(const Sklep &innySklep) = delete;// nie kopiujemy sklepów
     Sklep &operator=(const Sklep &innySklep) = delete; // j.w.
     virtual ~Sklep();
 
+    //wypisywanie
+    void wypisz(ostream &os) const override;
+
+    //settery i gettery
+    int dajX() const;
+    int dajY() const;
+    virtual void ustawSiec(Siec *siec);
+    virtual const vector<Towar *> &pokazTowary();
+    virtual Siec *pokazSiec();
+    virtual void odejdzZSieci(Siec *siec);
+    virtual void przelew(double kwota, Sklep *sklep) override;
 
     //funkcje
     Towar* NajdrozszyWBudzecie(int budzet) override;
@@ -71,15 +79,7 @@ public:
     Towar* NajtanszyKonkretnyTowar(string nazwa, int budzet) override;
     Towar* KonkretnyTowar(string nazwa, int budzet) override;
     ObiektHandlowy* NajblizszySklepZKonkretnymTowarem(string nazwa, int x_klienta, int y_klienta, int budzet) override;
-    int dajX() const;
-    int dajY() const;
     double OdlegloscOdPunktu(int x, int y) override; // nie ma sensu odleglośc od sieci
-    void wypisz(ostream &os) const override;
-    virtual void ustawSiec(Siec *siec);
-    virtual const vector<Towar *> &pokazTowary();
-    virtual Siec *pokazSiec();
-    virtual void odejdzZSieci(Siec *siec);
-    virtual void przelew(double kwota, Sklep *sklep) override;
     virtual Sklep& operator+=(Towar*);
 };
 
@@ -97,6 +97,14 @@ public:
     Siec &operator=(const Siec &innaSiec) = delete;
     virtual ~Siec();
 
+    //wypisywanie
+    void wypisz(ostream &os) const override;
+
+    //settery i gettery
+    virtual void usunSklepzSieci(const Sklep *sklep);
+    virtual void dodajSklepDoSieci(Sklep *sklep);
+    const vector<Sklep *> &pokazSklepy();
+    virtual void przelew(double kwota, Sklep *sklep) override;
 
     //funckje
     Towar* NajdrozszyWBudzecie(int budzet) override;
@@ -107,11 +115,6 @@ public:
     Towar* KonkretnyTowar(string nazwa, int budzet) override;
     double OdlegloscOdPunktu(int x, int y) override;
     virtual void przejmijSiec(Siec *SiecDoPrzejecia);
-    virtual void usunSklepzSieci(const Sklep *sklep);
-    virtual void dodajSklepDoSieci(Sklep *sklep);
-    const vector<Sklep *> &pokazSklepy();
-    void wypisz(ostream &os) const override;
-    virtual void przelew(double kwota, Sklep *sklep) override;
     virtual Siec& operator+=(Sklep*);
 
 };

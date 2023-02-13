@@ -16,13 +16,12 @@ public:
     Towar &operator=(const Towar &innyTowar);
     ~Towar() = default;
 
+    //wypisywanie
     friend ostream &operator<<(ostream &os, const Towar &towar);
 
-    //funkcje
+    //settery i gettery
     virtual void zmienCene(int cena);
-
     void ustawSklep(Sklep *sklep);
-
     Sklep *dajSklep() const;
     int dajIlosc() const;
     virtual void zmienIlosc(int ilosc);

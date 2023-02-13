@@ -18,13 +18,13 @@ public:
     Miasto() = default;
     Miasto(const vector<ObiektHandlowy *> &sklepy, const vector<Klient *> &klienci);
     Miasto(const Miasto &inneMiasto) = delete;
-
-    void usunObiektHandlowy(ObiektHandlowy *placowka);
-
-    const vector<Klient *> &dajKlientow() const;
-
     Miasto &operator=(const Miasto &inneMiasto) = delete;
     virtual ~Miasto();
+
+    //settery i gettery
+    const vector<ObiektHandlowy *> &dajSklepy() const;
+    void usunObiektHandlowy(ObiektHandlowy *placowka);
+    const vector<Klient *> &dajKlientow() const;
 
     //wypisywanie
     friend ostream &operator<<(ostream &os, const Miasto &miasto);
@@ -35,5 +35,5 @@ public:
     virtual Miasto& operator+=(Klient*);
     virtual Miasto& operator+=(ObiektHandlowy*);
 
-    const vector<ObiektHandlowy *> &dajSklepy() const;
+
 };

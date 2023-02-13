@@ -14,6 +14,7 @@ private:
     bool mamPrezent = false;
     Miasto *miasto = nullptr;
 public:
+    //techniczne
     Klient() = delete;
     Klient(const string &imie, int budzet, int x, int y);
     Klient(const Klient &innyKlient) = delete;
@@ -22,16 +23,20 @@ public:
 
     //wypisywanie
     friend ostream &operator<<(ostream &os, const Klient &klient);
-    virtual void zakup(Miasto&) = 0;
     virtual void wypisz(ostream &os) const;
+
+    //settery i gettery
     virtual void ustawMiasto(Miasto *miasto);
     int dajBudzet() const;
     void JuzMamPrezent();
     bool CzyMamPrezent() const;
     int dajX() const;
     int dajY() const;
-
     void przelew(double budzet);
+
+    //funckje
+    virtual void zakup(Miasto&) = 0; // to klient kupuje w sklepie
+
 };
 
 ///////////////////////////////////////podklasy////////////////////////////////////////////////////////
@@ -73,6 +78,7 @@ public:
     Losowy &operator=(const Losowy&) = delete;
     virtual ~Losowy() = default;
 
+    //funkcje
     virtual void zakup(Miasto&) override;
 };
 
@@ -89,8 +95,13 @@ public:
     Oszczedny &operator=(const Oszczedny&) = delete;
     virtual ~Oszczedny() = default;
 
+    //wypisywanie
     virtual void wypisz(ostream &os) const override;
+
+    //settery i gettery
     const string &dajSzukanyProdukt() const;
+
+    //funkcje
     virtual void zakup(Miasto&) override;
 };
 
@@ -101,14 +112,18 @@ class Tradycjonalista : public Klient {
 private:
     string szukanyProdukt;
 public:
-    const string &dajSzukanyProdukt() const;
-
     Tradycjonalista(const string& imie, int budzet, int x, int y, const string& szukanyProdukt);
     Tradycjonalista() = delete;
     Tradycjonalista(const Tradycjonalista&) = delete;
     Tradycjonalista &operator=(const Tradycjonalista&) = delete;
     virtual ~Tradycjonalista() = default;
 
+    //wypisywanie
     virtual void wypisz(ostream &os) const override;
+
+    //settery i gettery
+    const string &dajSzukanyProdukt() const;
+
+    //funkcje
     virtual void zakup(Miasto&) override;
 };
