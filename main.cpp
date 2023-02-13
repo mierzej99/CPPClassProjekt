@@ -56,7 +56,6 @@ int main() {
     Bogatki.dodajKlienta(trad);
     Bogatki.dodajKlienta(oszcz);
 
-    //cout << Bogatki << endl;
 
     for (auto *klient : Bogatki.dajKlientow()){
         klient->zakup(Bogatki);

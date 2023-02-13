@@ -142,6 +142,11 @@ void Sklep::przelew(double kwota, Sklep* sklep) {
     this->saldo += kwota;
 }
 
+Sklep &Sklep::operator+=(Towar *towar) {
+    towary.push_back(towar);
+    return *this;
+}
+
 ////////////SIEĆ///////////////////////////////////////
 //konstruktor
 Siec::Siec(string nazwa, double marza, vector<Sklep *> sklepy) : ObiektHandlowy(nazwa), marza(marza), sklepy(sklepy) {
@@ -205,7 +210,7 @@ Towar *Siec::LosowyTowar(int budzet) {
 
 Towar *Siec::NajtanszyKonkretnyTowar(string nazwa, int budzet) {
     Towar *szukanyTowar = nullptr, *tempTowar = nullptr;
-    int min_cena = 10000; //TODO: mądrzej zrobić min
+    int min_cena = budzet+1;
     for (Sklep *sklep: this->pokazSklepy()) {
         tempTowar = sklep->NajtanszyKonkretnyTowar(nazwa, budzet);
         if (tempTowar != nullptr && tempTowar->dajCene() < min_cena) szukanyTowar = tempTowar;
@@ -216,7 +221,7 @@ Towar *Siec::NajtanszyKonkretnyTowar(string nazwa, int budzet) {
 
 ObiektHandlowy *Siec::NajblizszySklepZKonkretnymTowarem(string nazwa, int x_klienta, int y_klienta, int budzet) {
     Sklep *szukanySklep = nullptr, *tempSklep = nullptr;
-    double min_odl = 100000; //TODO: mądrzej
+    int min_odl = 2147483647*sqrt(2); //przekatna maksymalnego miasta
     for (Sklep *sklep: this->pokazSklepy()) {
         if (sklep->NajblizszySklepZKonkretnymTowarem(nazwa, x_klienta, y_klienta, budzet) != nullptr &&
             sklep->OdlegloscOdPunktu(x_klienta, y_klienta) < min_odl &&
@@ -264,4 +269,10 @@ void Siec::wypisz(ostream &os) const {
 void Siec::przelew(double kwota, Sklep *sklep) {
     sklep->przelew((1-this->marza)*kwota, sklep);
     this->saldo += this->marza * kwota;
-};
+}
+
+Siec &Siec::operator+=(Sklep *sklep) {
+    sklepy.push_back(sklep);
+    return *this;
+}
+

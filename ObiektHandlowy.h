@@ -80,6 +80,7 @@ public:
     virtual Siec *pokazSiec();
     virtual void odejdzZSieci(Siec *siec);
     virtual void przelew(double kwota, Sklep *sklep) override;
+    virtual Sklep& operator+=(Towar*);
 };
 
 
@@ -111,6 +112,7 @@ public:
     const vector<Sklep *> &pokazSklepy();
     void wypisz(ostream &os) const override;
     virtual void przelew(double kwota, Sklep *sklep) override;
+    virtual Siec& operator+=(Sklep*);
 
 };
 

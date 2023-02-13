@@ -32,7 +32,8 @@ public:
     //funkcje
     virtual void dodajObiektHandlowy(ObiektHandlowy *sklep);
     virtual void dodajKlienta(Klient *klient);
-
+    virtual Miasto& operator+=(Klient*);
+    virtual Miasto& operator+=(ObiektHandlowy*);
 
     const vector<ObiektHandlowy *> &dajSklepy() const;
 };

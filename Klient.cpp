@@ -131,7 +131,7 @@ void Oszczedny::zakup(Miasto &miasto) {
         cout << "Transakcja nieudana, albo nie ma już sklepów albo już masz prezent" << endl;
         return;
     }
-    int min_cena = 100000; //TODO: zrobić mądrzej
+    int min_cena = this->dajBudzet()+1;
     Towar *szukanyTowar = nullptr, *tempTowar = nullptr;
     ObiektHandlowy *placowka = nullptr;
     for (ObiektHandlowy *sklep: miasto.dajSklepy()) {
@@ -166,15 +166,17 @@ void Tradycjonalista::zakup(Miasto &miasto) {
         cout << "Transakcja nieudana, albo nie ma już sklepów albo już masz prezent" << endl;
         return;
     }
-    int min_odl = 1000000; //TODO: zrobić mądrzej min
+    int min_odl = 2147483647*sqrt(2); //przekatna maksymalnego miasta
     ObiektHandlowy *sklepZSzukanymTowarem = nullptr, *tempSklep = nullptr;
     //bierzemy od miasta listę sklepów (w tym też sieci sklepów)i szukamy najbliższego z dostępnym towarem.
+    ObiektHandlowy *placowka = nullptr;
     for (ObiektHandlowy *sklep: miasto.dajSklepy()) {
         tempSklep = sklep->NajblizszySklepZKonkretnymTowarem(this->dajSzukanyProdukt(), this->dajX(), this->dajY(),
                                                              this->dajBudzet());
 
         if (tempSklep != nullptr && tempSklep->OdlegloscOdPunktu(this->dajX(), this->dajY()) < min_odl) {
             sklepZSzukanymTowarem = tempSklep;
+            placowka = sklep;
             min_odl = tempSklep->OdlegloscOdPunktu(this->dajX(), this->dajY());
         }
     }
@@ -183,7 +185,7 @@ void Tradycjonalista::zakup(Miasto &miasto) {
         Towar *tempTowar = sklepZSzukanymTowarem->KonkretnyTowar(this->dajSzukanyProdukt(), this->dajBudzet());
         tempTowar->zmienIlosc(-1);
         this->przelew(-tempTowar->dajCene());
-        sklepZSzukanymTowarem->przelew(tempTowar->dajCene(), tempTowar->dajSklep());
+        placowka->przelew(tempTowar->dajCene(), tempTowar->dajSklep());
     }
 
 }
