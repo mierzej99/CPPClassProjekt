@@ -194,6 +194,3 @@ void Tradycjonalista::wypisz(ostream &os) const {
     Klient::wypisz(os);
     os << ", Szukam produktu: " << this->dajSzukanyProdukt();
 }
-
-
-

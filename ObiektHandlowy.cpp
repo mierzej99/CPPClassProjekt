@@ -252,7 +252,6 @@ void Siec::dodajSklepDoSieci(Sklep *sklep) {
 void Siec::przejmijSiec(Siec *siecDoPrzejecia) {
     siecDoPrzejecia->dajMiasto()->usunObiektHandlowy(siecDoPrzejecia);
     siecDoPrzejecia->ustawMiasto(nullptr);
-    cout << "dupa" << endl;
     for (Sklep *sklep : siecDoPrzejecia->pokazSklepy()){
         siecDoPrzejecia->usunSklepzSieci(sklep);
         sklep->ustawSiec(this);
